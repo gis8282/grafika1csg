@@ -20,7 +20,7 @@ namespace Csg
             InitializeComponent();
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
             grfx = Graphics.FromImage(bitmap);
-            r = new RayCaster(putPixel);
+            r = new RayCaster(putPixel, DrawRect);
         }
 
         #region Rysowanie
@@ -56,10 +56,32 @@ namespace Csg
         }
         #endregion
 
+
+        private void DrawRect(int x0, int y0, int x1, int y1)
+        {
+            DrawHLine(x0, x1, y0);
+            DrawHLine(x0, x1, y1);
+            DrawVLine(y0, y1, x0);
+            DrawVLine(y0, y1, x1);
+        }
+
+        public void DrawHLine(int x0, int x1, int y)
+        {
+            for (int x = x0; x <= x1; x++)
+                putPixel(x, y, 255, 255, 255);
+        }
+
+        public void DrawVLine(int y0, int y1, int x)
+        {
+            for (int y = y0; y <= y1; y++)
+                putPixel(x, y, 255, 255, 255);
+        }
+
         public void putPixel(int x, int y, int r, int g, int b)
         {
             bitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
         }
+
 
         private void koniecToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -83,22 +105,22 @@ namespace Csg
             switch (e.KeyChar)
             {
                 case 'q': 
-                    RayCaster.M = Matrix4x4.CreateRotateX(delta) * RayCaster.M; 
+                    r.M = Matrix4x4.CreateRotateX(delta) * r.M; 
                     break;
                 case 'w': 
-                    RayCaster.M = Matrix4x4.CreateRotateX(-delta) * RayCaster.M; 
+                    r.M = Matrix4x4.CreateRotateX(-delta) * r.M; 
                     break;
                 case 'a': 
-                    RayCaster.M = Matrix4x4.CreateRotateY(delta) * RayCaster.M; 
+                    r.M = Matrix4x4.CreateRotateY(delta) * r.M; 
                     break;
                 case 's': 
-                    RayCaster.M = Matrix4x4.CreateRotateY(-delta) * RayCaster.M; 
+                    r.M = Matrix4x4.CreateRotateY(-delta) * r.M; 
                     break;
                 case 'z': 
-                    RayCaster.M = Matrix4x4.CreateRotateZ(delta) * RayCaster.M; 
+                    r.M = Matrix4x4.CreateRotateZ(delta) * r.M; 
                     break;
                 case 'x': 
-                    RayCaster.M = Matrix4x4.CreateRotateZ(-delta) * RayCaster.M; 
+                    r.M = Matrix4x4.CreateRotateZ(-delta) * r.M; 
                     break;
             }
 

@@ -40,10 +40,10 @@ namespace Csg
             this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.koniecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.debug = new System.Windows.Forms.ToolStripStatusLabel();
             this.spheres = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.debug = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -86,20 +86,20 @@ namespace Csg
             this.wczytajKuleToolStripMenuItem,
             this.wcyztajSwiatlaToolStripMenuItem});
             this.akcjeToolStripMenuItem.Name = "akcjeToolStripMenuItem";
-            this.akcjeToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.akcjeToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.akcjeToolStripMenuItem.Text = "Akcje";
             // 
             // wczytajKuleToolStripMenuItem
             // 
             this.wczytajKuleToolStripMenuItem.Name = "wczytajKuleToolStripMenuItem";
-            this.wczytajKuleToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.wczytajKuleToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.wczytajKuleToolStripMenuItem.Text = "Wczytaj kule...";
             this.wczytajKuleToolStripMenuItem.Click += new System.EventHandler(this.readSceneToolStripMenuItem_Click);
             // 
             // wcyztajSwiatlaToolStripMenuItem
             // 
             this.wcyztajSwiatlaToolStripMenuItem.Name = "wcyztajSwiatlaToolStripMenuItem";
-            this.wcyztajSwiatlaToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.wcyztajSwiatlaToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.wcyztajSwiatlaToolStripMenuItem.Text = "Wcyztaj swiatla...";
             this.wcyztajSwiatlaToolStripMenuItem.Click += new System.EventHandler(this.readLights_Click);
             // 
@@ -150,6 +150,12 @@ namespace Csg
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip";
             // 
+            // debug
+            // 
+            this.debug.Name = "debug";
+            this.debug.Size = new System.Drawing.Size(118, 17);
+            this.debug.Text = "toolStripStatusLabel2";
+            // 
             // spheres
             // 
             this.spheres.Name = "spheres";
@@ -164,12 +170,6 @@ namespace Csg
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // debug
-            // 
-            this.debug.Name = "debug";
-            this.debug.Size = new System.Drawing.Size(109, 17);
-            this.debug.Text = "toolStripStatusLabel2";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -179,7 +179,7 @@ namespace Csg
             this.Controls.Add(this.panel);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "CSG";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();

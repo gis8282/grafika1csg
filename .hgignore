@@ -1,0 +1,4 @@
+syntax: glob
+grafika1_csg/bin/
+grafika1_csg.suo
+grafika1_csg/obj/

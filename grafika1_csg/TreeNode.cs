@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Csg
 {
-    class TreeNode
+    public abstract class TreeNode
     {
        
         TreeNode _left, _right;
@@ -117,99 +117,6 @@ namespace Csg
             }
         }
 
-        public List<Interval> TraverseTree(float x, float y)
-        {
-            if (Left != null || Right != null)
-            {
-                List<Interval> left = Left.TraverseTree(x, y);
-                List<Interval> right = Right.TraverseTree(x, y);
-                    switch (((TreeOperation)this).OperationType)
-                    {
-                        case OperationType.difference:   
-                            return Interval.Difference(left, right);
-                        case OperationType.union:        
-                            return Interval.Union(left, right);
-                        case OperationType.intersection: 
-                            return Interval.Intersection(left, right);
-                    }
-            }
-            else if(this is TreeSphere)
-            {
-                Sphere s = ((TreeSphere)this).S;
-                float[] c = new float[] { s.CurrentPosition[0], s.CurrentPosition[1], s.CurrentPosition[2]};
-
-                if (Math.Pow(x - c[0], 2) + Math.Pow(y - c[1], 2) < s.Radius * s.Radius)
-                {
-                    float z1 = (float)(c[2] - Math.Sqrt(s.Radius * s.Radius - Math.Pow(x - c[0], 2f) - Math.Pow(y - c[1], 2f)));
-                    float z2 = (float)(c[2] + Math.Sqrt(s.Radius * s.Radius - Math.Pow(x - c[0], 2f) - Math.Pow(y - c[1], 2f)));
-                    List<Interval> ret_val = new List<Interval>();
-                    Interval interval = new Interval(z1, z2);
-                    interval.ColourA = s.Color;
-                    interval.ColourB = s.Color;
-                    interval.NA = new float[] { (x - c[0]) / s.Radius, (y - c[1]) / s.Radius, (z1 - c[2]) / s.Radius };
-                    interval.NB = new float[] { (x - c[0]) / -s.Radius, (y - c[1]) / -s.Radius, (z2 - c[2]) / -s.Radius };
-                    
-                    ret_val.Add(interval);
-                    return ret_val;
-                }
-            }
-
-            return null;
-        }
-
-        public static TreeOperation ReadFile(string fileName){
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-            StreamReader sr = new StreamReader(file);
-            string line = sr.ReadLine();
-
-            int sphereNumber = int.Parse(line);
-
-            TreeOperation[] treeOp = new TreeOperation[sphereNumber - 1];
-            treeSp = new TreeSphere[sphereNumber];
-
-            for (int i = 0; i < sphereNumber; i++)
-            {
-                line = sr.ReadLine();
-                string[] splitLine = line.Split(' ');
-                treeSp[i] = new TreeSphere(new Sphere(new float[] { float.Parse(splitLine[0]), float.Parse(splitLine[1]), float.Parse(splitLine[2]) },
-                    float.Parse(splitLine[3]),
-                    new int[] { int.Parse(splitLine[4]), int.Parse(splitLine[5]), int.Parse(splitLine[6]) }));
-            }
-
-            for (int i = 1; i <= sphereNumber - 1; i++)
-                treeOp[i - 1] = new TreeOperation();
-
-            for (int i = 1; i <= sphereNumber - 1; i++)
-            {
-                line = sr.ReadLine();
-                string[] splitLine = line.Split(' ');
-                OperationType ot = OperationType.difference;
-                if (splitLine[0][0] == '*')
-                    ot = OperationType.intersection;
-                if (splitLine[0][0] == '+')
-                    ot = OperationType.union;
-                if (splitLine[0][0] == '-')
-                    ot = OperationType.difference;
-
-                //treeOp[i-1] = new TreeOperation(ot);
-                treeOp[i - 1].OperationType = ot; 
-                //treeOp[i - 1].Left = (int.Parse(splitLine[1]) > 0) ? treeSp[int.Parse(splitLine[1]) - 1] : treeOp[-int.Parse(splitLine[1]) - 1];
-                if (int.Parse(splitLine[1]) > 0)
-                    treeOp[i-1].Left = treeSp[int.Parse(splitLine[1]) - 1];
-                else
-                    treeOp[i-1].Left = treeOp[-int.Parse(splitLine[1]) - 1];
-
-                if(int.Parse(splitLine[2]) > 0)
-                    treeOp[i-1].Right = treeSp[int.Parse(splitLine[2]) - 1];
-                else
-                    treeOp[i-1].Right = treeOp[-int.Parse(splitLine[2]) - 1];
-            }
-
-            sr.Close();
-            file.Close();
-            return treeOp[0];
-        }
+        public abstract List<Interval> TraverseTree(float x, float y);
     }
 }

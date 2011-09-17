@@ -54,6 +54,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Interval.cs" />
+    <Compile Include="ISceneParser.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="Matrix4x4.cs" />
     <Compile Include="OperationType.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="RayCaster.cs" />
     <Compile Include="ReflectorLight.cs" />
     <Compile Include="Sphere.cs" />
+    <Compile Include="TextSceneParser.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="TreeOperation.cs" />
     <Compile Include="TreeSphere.cs" />

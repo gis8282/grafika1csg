@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Csg
 {
-    class Interval : IComparable<Interval>
+    public class Interval : IComparable<Interval>
     {
         private float _a;
         private float _b;

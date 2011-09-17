@@ -1,6 +1,6 @@
 namespace Csg
 {
-    class Sphere
+    public class Sphere
     {
         private float[] _position = new float[4];
 

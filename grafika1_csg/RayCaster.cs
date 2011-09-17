@@ -67,17 +67,16 @@ namespace Csg
 
         private void RayCast(int x0, int y0, int x1, int y1)
         {
-            for (int i = x0; i <= x1; i++)
+            foreach (int i in Enumerable.Range(x0, x1 - x0))
             {
-                for (int j = y0; j < y1; j++)
+                foreach (int j in Enumerable.Range(y0, y1 - y0))
                 {
                     RayCast(i, j);
                 }
-            }
-            
+            }     
         }
 
-        private void RayCast(int i, int j)
+        private int RayCast(int i, int j)
         {
             float x, y;
 
@@ -92,6 +91,8 @@ namespace Csg
                         Math.Min(255, Math.Max(0, col[1])),
                         Math.Min(255, Math.Max(0, col[2])));
             }
+
+            return 0;
         }
 
         private int[] CalculateLights(float x, float y, Interval interval)

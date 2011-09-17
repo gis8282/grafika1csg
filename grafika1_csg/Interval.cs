@@ -13,8 +13,7 @@ namespace Csg
         private float[] _na = new float[3];
         private float[] _nb = new float[3];
 
-        public float A { get { return _a; } set { _a = value; } }
-        public float B { get { return _b; } set { _b = value; } }
+        public float A { get { return _a; } }
         public int[] ColourA { get { return _ca; } set { _ca = value; } }
         public int[] ColourB { get { return _cb; } set { _cb = value; } }
         public float[] NA { get { return _na; } set { _na = value; } }

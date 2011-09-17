@@ -17,10 +17,12 @@ namespace Csg
 
         public Form1()
         {
+            r = new RayCaster(putPixel, DrawRect);
+
             InitializeComponent();
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
             grfx = Graphics.FromImage(bitmap);
-            r = new RayCaster(putPixel, DrawRect);
+
         }
 
         #region Rysowanie
@@ -28,31 +30,39 @@ namespace Csg
         {
             base.OnResize(e);
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
+
+            r.Width = bitmap.Width;
+            r.Height = bitmap.Height;
+
             grfx = Graphics.FromImage(bitmap);
             this.Invalidate();
         }
+
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             base.OnPaintBackground(e);
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             startOfRendering = DateTime.Now;
 
-            grfx.Clear(pictureBox.BackColor);
-            grfx = Graphics.FromImage(bitmap);
-
-            r.Width = bitmap.Width;
-            r.Height = bitmap.Height;
-
-            
+            ClearScreen();
+ 
             if (r.Root != null)
                 r.RayCast();
             
             this.pictureBox.Image = bitmap;
+
             var renderingTime = DateTime.Now - startOfRendering;
             debug.Text = renderingTime.ToString();
+        }
+
+        private void ClearScreen()
+        {
+            grfx.Clear(pictureBox.BackColor);
+            grfx = Graphics.FromImage(bitmap);
         }
         #endregion
 

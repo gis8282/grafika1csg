@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Csg
 {
@@ -40,8 +42,8 @@ namespace Csg
                 return;
 
             int x0, y0, x1, y1;
-            WToS(wx0, wy0, out x0, out y0);
-            WToS(wx1, wy1, out x1, out y1);
+            WorldToScene(wx0, wy0, out x0, out y0);
+            WorldToScene(wx1, wy1, out x1, out y1);
 
             x0 = Math.Min(Width - 1, Math.Max(0, x0));
             x1 = Math.Min(Width - 1, Math.Max(0, x1));
@@ -69,43 +71,58 @@ namespace Csg
             {
                 for (int j = y0; j < y1; j++)
                 {
-                    float x = (2 * maxX * (float)i / (float)Width - maxX);
-                    float y = (2 * maxY * (float)j / (float)Height - maxY) * Height / Width;
-
-                    List<Interval> list = Root.TraverseTree(x, y);
-                    if (list != null && list.Count != 0)
-                    {
-                        int[] col = CalculateLights(x, y, list);
-
-                        _putPixel(i, j, Math.Min(255, Math.Max(0, col[0])),
-                                Math.Min(255, Math.Max(0, col[1])),
-                                Math.Min(255, Math.Max(0, col[2])));
-                    }
+                    RayCast(i, j);
                 }
+            }
+            
+        }
+
+        private void RayCast(int i, int j)
+        {
+            float x, y;
+
+            SceneToWorld(i, j, out x, out y);
+
+            List<Interval> list = Root.TraverseTree(x, y);
+            if (list != null && list.Count != 0)
+            {
+                int[] col = CalculateLights(x, y, list[0]);
+
+                _putPixel(i, j, Math.Min(255, Math.Max(0, col[0])),
+                        Math.Min(255, Math.Max(0, col[1])),
+                        Math.Min(255, Math.Max(0, col[2])));
             }
         }
 
-        private int[] CalculateLights(float x, float y, List<Interval> list)
+        private int[] CalculateLights(float x, float y, Interval interval)
         {
             int[] col = new int[3];
             for (int k = 0; k < Lights.Length; k++)
             {
-                Light.N = new float[] { list[0].NA[0], list[0].NA[1], list[0].NA[2] };
-                Light.cM = list[0].ColourA;
-                Light.PosS = new float[] { x, y, list[0].A };
+                Light.N = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
+                Light.cM = interval.ColourA;
+                Light.PosS = new float[] { x, y, interval.A };
                 int[] c = Lights[k].CalcLight();
-                if (c != null)
-                    for (int l = 0; l < 3; l++)
-                        col[l] += c[l];
+                for (int l = 0; l < 3; l++)
+                {
+                    col[l] += c[l];
+                }
             }
             return col;
         }
 
-        public void WToS(float x, float y, out int xs, out int ys){
+        private void WorldToScene(float x, float y, out int xs, out int ys){
             xs = (int)((x + maxX) / (2*maxX) * Width);
             ys = (int)((y * Width / Height + maxY) / (2 * maxY) * Height);
         }
 
+        private void SceneToWorld(int xs, int ys, out float x, out float y)
+        {
+            x = (2 * maxX * (float)xs / (float)Width - maxX);
+            y = (2 * maxY * (float)ys / (float)Height - maxY) * Height / Width;
+        }
+
+        [Conditional("DEBUG")]
         public void DrawRects()
         {
             
@@ -114,8 +131,8 @@ namespace Csg
                 float[] currPos = (TreeNode.treeSp[i] as TreeSphere).S.CurrentPosition;
                 float r = (TreeNode.treeSp[i] as TreeSphere).S.Radius;
                 int x0, y0, x1, y1;
-                WToS(currPos[0] - r, currPos[1] - r, out x0, out y0);
-                WToS(currPos[0] + r, currPos[1] + r, out x1, out y1);
+                WorldToScene(currPos[0] - r, currPos[1] - r, out x0, out y0);
+                WorldToScene(currPos[0] + r, currPos[1] + r, out x1, out y1);
                 x0 = Math.Min(Width-1, Math.Max(0, x0));
                 x1 = Math.Min(Width - 1, Math.Max(0, x1));
                 y0 = Math.Min(Width - 1, Math.Max(0, y0));

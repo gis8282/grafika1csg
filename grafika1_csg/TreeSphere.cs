@@ -37,5 +37,15 @@ namespace Csg
             }
             return null;
         }
+
+        public override bool FindRect(out float x0, out float y0, out float x1, out float y1)
+        {
+            x0 = ((this as TreeSphere).S.CurrentPosition[0] - (this as TreeSphere).S.Radius);
+            y0 = ((this as TreeSphere).S.CurrentPosition[1] - (this as TreeSphere).S.Radius);
+
+            x1 = (((this as TreeSphere).S.CurrentPosition[0] + (this as TreeSphere).S.Radius));
+            y1 = ((this as TreeSphere).S.CurrentPosition[1] + (this as TreeSphere).S.Radius);
+            return true;
+        }
     }
 }

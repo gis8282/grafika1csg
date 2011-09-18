@@ -61,8 +61,8 @@ namespace Csg
 
         private void UpdateSpheresPositions()
         {
-            for (int i = 0; i < TreeNode.treeSp.Length; i++)
-                (TreeNode.treeSp[i] as TreeSphere).S.updateCurrPosition(M);
+            for (int i = 0; i < TreeNode.AllTreeSpheres.Length; i++)
+                TreeNode.AllTreeSpheres[i].S.updateCurrPosition(M);
         }
 
         private void RayCast(int x0, int y0, int x1, int y1)
@@ -127,10 +127,10 @@ namespace Csg
         public void DrawRects()
         {
             
-            for (int i = 0; i < TreeNode.treeSp.Length; i++)
+            for (int i = 0; i < TreeNode.AllTreeSpheres.Length; i++)
             {
-                float[] currPos = (TreeNode.treeSp[i] as TreeSphere).S.CurrentPosition;
-                float r = (TreeNode.treeSp[i] as TreeSphere).S.Radius;
+                float[] currPos = (TreeNode.AllTreeSpheres[i] as TreeSphere).S.CurrentPosition;
+                float r = (TreeNode.AllTreeSpheres[i] as TreeSphere).S.Radius;
                 int x0, y0, x1, y1;
                 WorldToScene(currPos[0] - r, currPos[1] - r, out x0, out y0);
                 WorldToScene(currPos[0] + r, currPos[1] + r, out x1, out y1);

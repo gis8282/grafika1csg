@@ -22,7 +22,6 @@ namespace Csg
             InitializeComponent();
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
             grfx = Graphics.FromImage(bitmap);
-
         }
 
         #region Rysowanie
@@ -52,7 +51,8 @@ namespace Csg
  
             if (r.Root != null)
                 r.RayCast();
-            
+
+            r.DrawRects();
             this.pictureBox.Image = bitmap;
 
             var renderingTime = DateTime.Now - startOfRendering;

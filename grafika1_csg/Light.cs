@@ -15,15 +15,15 @@ namespace Csg
         protected static int[] _colorM;
         protected static float[] _posS;
 
-        public static float[] N { get { return _normal; } set { _normal = value; } }
+        public static float[] Normal { get { return _normal; } set { _normal = value; } }
         public static float M { get { return _m; } set { _m = value; } }
-        public static int[] cM { get { return _colorM; } set { _colorM = value; } }
+        public static int[] ColorM { get { return _colorM; } set { _colorM = value; } }
         public int[] cL { get { return _colorL; } set { _colorL = value; } }
         public static float[] PosS { get { return _posS; } set { _posS = value; } }
 
         public static float[] Normalize(float[] vec)
         {
-            float length = vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2];
+            float length = (float)Math.Sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
             return new float[] { vec[0] / length, vec[1] / length, vec[2] / length };
         }
 
@@ -37,7 +37,7 @@ namespace Csg
 
             int lightsNumber = int.Parse(line);
             line = sr.ReadLine();
-            _m = float.Parse(line);
+            M = float.Parse(line);
 
             Light[] lights = new Light[lightsNumber];
 

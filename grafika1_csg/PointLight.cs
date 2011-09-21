@@ -17,7 +17,7 @@ namespace Csg
             _colorL = colorL;
         }
         public float[] PosL { get { return _posL; } set { _posL = value; } }
-        public float[] Ref { get { return new float[] { 2 * N[0] - (PosL[0] - PosS[0]), 2 * N[1] - (PosL[1] - PosS[1]), 2 * N[2] - (PosL[2] - PosS[2]) }; } }
+        public float[] Ref { get { return new float[] { 2 * Normal[0] - (PosL[0] - PosS[0]), 2 * Normal[1] - (PosL[1] - PosS[1]), 2 * Normal[2] - (PosL[2] - PosS[2]) }; } }
 
         
         public override int[] CalcLight()
@@ -32,8 +32,8 @@ namespace Csg
             float[] l = new float[] { _posL[0] - _posS[0], _posL[1] - _posS[1], _posL[2] - _posS[2] };
             //zbedne
             l = Light.Normalize(l);
-            N = Light.Normalize(N);
-            float n_l = l[0] * N[0] + l[1] * N[1] + l[2] *N[2];
+            Normal = Light.Normalize(Normal);
+            float n_l = l[0] * Normal[0] + l[1] * Normal[1] + l[2] *Normal[2];
             n_l = Math.Max(0, n_l);
             float[] r = new float[3] { Ref[0], Ref[1], Ref[2] };
             r = Light.Normalize(r);

@@ -14,7 +14,7 @@ namespace Csg
         public float[] D { get { return _dir; } set { _dir = value; } }
         public float[] PosL { get { return _position; } set { _position = value; } }
         public float S { get { return _suppression; } set { _suppression = value; } }
-        public float[] Ref { get { return new float[] { 2 * N[0] - (PosL[0] - PosS[0]), 2 * N[1] - (PosL[1] - PosS[1]), 2 * N[2] - (PosL[2] - PosS[2]) }; } }
+        public float[] Ref { get { return new float[] { 2 * Normal[0] - (PosL[0] - PosS[0]), 2 * Normal[1] - (PosL[1] - PosS[1]), 2 * Normal[2] - (PosL[2] - PosS[2]) }; } }
 
         public ReflectorLight(float[] position, float[] dir, float suppresion, int[] colorL)
         {
@@ -35,8 +35,8 @@ namespace Csg
             float[] l = new float[] { PosL[0] - _posS[0], PosL[1] - _posS[1], PosL[2] - _posS[2] };
             //zbedne
             l = Light.Normalize(l);
-            N = Light.Normalize(N);
-            float n_l = l[0] * N[0] + l[1] * N[1] + l[2] * N[2];
+            Normal = Light.Normalize(Normal);
+            float n_l = l[0] * Normal[0] + l[1] * Normal[1] + l[2] * Normal[2];
             n_l = Math.Max(0, n_l);
             float k = _suppression;
 

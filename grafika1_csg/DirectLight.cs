@@ -20,7 +20,7 @@ namespace Csg
             get { return _dir; }
             set { _dir = value; }
         }
-        public float[] Ref { get { return new float[] { 2 * N[0] - D[0], 2 * N[1] - D[1], 2 * N[2] - D[2] }; } }
+        public float[] Ref { get { return new float[] { 2 * Normal[0] - D[0], 2 * Normal[1] - D[1], 2 * Normal[2] - D[2] }; } }
 
         public override int[] CalcLight()
         {
@@ -34,7 +34,7 @@ namespace Csg
             float[] l = new float[] { -D[0], -D[1], -D[2] };
             //zbedne
             l = Light.Normalize(l);
-            N = Light.Normalize(N);
+            Normal = Light.Normalize(Normal);
             float n_l = _dir[0] * _normal[0] + _dir[1] * _normal[1] + _dir[2] * _normal[2];
             n_l = Math.Max(0, n_l);
             float[] r = new float[3] { Ref[0], Ref[1], Ref[2]};

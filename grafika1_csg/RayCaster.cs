@@ -100,8 +100,8 @@ namespace Csg
             int[] col = new int[3];
             for (int k = 0; k < Lights.Length; k++)
             {
-                Light.N = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
-                Light.cM = interval.ColourA;
+                Light.Normal = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
+                Light.ColorM = interval.ColourA;
                 Light.PosS = new float[] { x, y, interval.A };
                 int[] c = Lights[k].CalcLight();
                 for (int l = 0; l < 3; l++)

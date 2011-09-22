@@ -7,16 +7,14 @@ namespace Csg
 {
     abstract class Light
     {
-        static float _m; //rozblysk materialu
-        abstract public int[] CalcLight();
-        
-        protected static float[] _normal;
+        abstract public int[] CalculateLight();
+
         protected int[] _colorL;
         protected static int[] _colorM;
         protected static float[] _posS;
 
-        public static float[] Normal { get { return _normal; } set { _normal = value; } }
-        public static float M { get { return _m; } set { _m = value; } }
+        public static float[] Normal { get; set; }
+        public static float M { get; set; }
         public static int[] ColorM { get { return _colorM; } set { _colorM = value; } }
         public int[] cL { get { return _colorL; } set { _colorL = value; } }
         public static float[] PosS { get { return _posS; } set { _posS = value; } }

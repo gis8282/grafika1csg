@@ -23,7 +23,7 @@ namespace Csg
             _suppression = suppresion;
             _colorL = colorL;
         }
-        public override int[] CalcLight()
+        public override int[] CalculateLight()
         {
             float[] Ka = new float[] { (0.4f * _colorM[0] / 255f), (0.4f * _colorM[1] / 255f), (0.4f * _colorM[2] / 255f) };
             float[] Kd = new float[] { _colorM[0] / 255f, _colorM[1] / 255f, _colorM[2] / 255f };

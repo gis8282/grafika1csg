@@ -52,11 +52,8 @@ namespace Csg
 
 
             RayCast(x0, y0, x1, y1);
-   
-            if (ShowRect)
-            {
-                _drawRect(x0, y0, x1, y1);
-            }
+
+            DrawRect(x0, y0, x1, y1);
         }
 
         private void UpdateSpheresPositions()
@@ -67,9 +64,9 @@ namespace Csg
 
         private void RayCast(int x0, int y0, int x1, int y1)
         {
-            foreach (int i in Enumerable.Range(x0, x1 - x0))
+            foreach (int i in Enumerable.Range(x0, x1 - x0).Where(x => x > 0 && x < Width))
             {
-                foreach (int j in Enumerable.Range(y0, y1 - y0))
+                foreach (int j in Enumerable.Range(y0, y1 - y0).Where(y => y >0 && y < Height))
                 {
                     RayCast(i, j);
                 }
@@ -103,7 +100,7 @@ namespace Csg
                 Light.Normal = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
                 Light.ColorM = interval.ColourA;
                 Light.PosS = new float[] { x, y, interval.A };
-                int[] c = Lights[k].CalcLight();
+                int[] c = Lights[k].CalculateLight();
                 for (int l = 0; l < 3; l++)
                 {
                     col[l] += c[l];
@@ -123,6 +120,12 @@ namespace Csg
             y = (2 * maxY * (float)ys / (float)Height - maxY) * Height / Width;
         }
 
+        [Conditional("Debug")]
+        public void DrawRect(int x0, int y0, int x1, int y1)
+        {
+            _drawRect(x0, y0, x1, y1);
+        }
+
         [Conditional("DEBUG")]
         public void DrawRects()
         {
@@ -134,10 +137,6 @@ namespace Csg
                 int x0, y0, x1, y1;
                 WorldToScene(currPos[0] - r, currPos[1] - r, out x0, out y0);
                 WorldToScene(currPos[0] + r, currPos[1] + r, out x1, out y1);
-                x0 = Math.Min(Width-1, Math.Max(0, x0));
-                x1 = Math.Min(Width - 1, Math.Max(0, x1));
-                y0 = Math.Min(Width - 1, Math.Max(0, y0));
-                y1 = Math.Min(Width - 1, Math.Max(0, y1));
                 _drawRect(x0, y0, x1, y1);
             }
         }

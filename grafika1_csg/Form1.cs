@@ -75,16 +75,29 @@ namespace Csg
             DrawVLine(y0, y1, x1);
         }
 
+        //ClippedX,Y are very inefficient but used only for debugging...
+        int ClippedX(int x)
+        {
+            return Math.Min(Math.Max(x, 0), r.Width - 1);
+        }
+
+        int ClippedY(int y)
+        {
+            return Math.Min(Math.Max(y, 0), r.Height - 1);
+        }
+
         public void DrawHLine(int x0, int x1, int y)
         {
             for (int x = x0; x <= x1; x++)
-                putPixel(x, y, 255, 255, 255);
+            {
+                putPixel(ClippedX(x), ClippedY(y), 255, 255, 255);
+            }
         }
 
         public void DrawVLine(int y0, int y1, int x)
         {
             for (int y = y0; y <= y1; y++)
-                putPixel(x, y, 255, 255, 255);
+                putPixel(ClippedX(x), ClippedY(y), 255, 255, 255);
         }
 
         public void putPixel(int x, int y, int r, int g, int b)

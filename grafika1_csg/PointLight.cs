@@ -20,7 +20,7 @@ namespace Csg
         public float[] Ref { get { return new float[] { 2 * Normal[0] - (PosL[0] - PosS[0]), 2 * Normal[1] - (PosL[1] - PosS[1]), 2 * Normal[2] - (PosL[2] - PosS[2]) }; } }
 
         
-        public override int[] CalcLight()
+        public override int[] CalculateLight()
         {
             float[] Ka = new float[] { (0.4f * _colorM[0] / 255f), (0.4f * _colorM[1] / 255f), (0.4f * _colorM[2] / 255f) };
             float[] Kd = new float[] { _colorM[0] / 255f, _colorM[1] / 255f, _colorM[2] / 255f };

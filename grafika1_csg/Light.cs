@@ -7,63 +7,10 @@ namespace Csg
 {
     public abstract class Light
     {
-        abstract public int[] CalculateLight();
+        abstract public int[] CalculateLight(float[] spherePosition, float[] sphereNormal, int[] materialColor);
 
         public static float M { get; set; }
 
-        public static float[] SphereNormal { get; set; }
-        public static float[] SpherePosition { get; set; }
-
-        public static int[] MaterialColor { get; set; }
         public int[] LightColor { get; set; }
-        
-
-
-        public static Light[] ReadFile(string fileName)
-        {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-            StreamReader sr = new StreamReader(file);
-            string line = sr.ReadLine();
-
-            int lightsNumber = int.Parse(line);
-            line = sr.ReadLine();
-            M = float.Parse(line);
-
-            Light[] lights = new Light[lightsNumber];
-
-            for (int i = 0; i < lightsNumber; i++)
-            {
-                line = sr.ReadLine();
-                string[] splitLine = line.Split(' ');
-                switch (splitLine[0][0])
-                {
-                    case '0':
-                        lights[i] = new DirectLight(
-                            new float[] {float.Parse(splitLine[1]), float.Parse(splitLine[2]), float.Parse(splitLine[3]) },
-                            new int[] { int.Parse(splitLine[4]), int.Parse(splitLine[5]), int.Parse(splitLine[6])});                   
-                        break;
-                    case '1':
-                        lights[i] = new PointLight(
-                            new float[] { float.Parse(splitLine[1]), float.Parse(splitLine[2]), float.Parse(splitLine[3]) },
-                            new int[] { int.Parse(splitLine[4]), int.Parse(splitLine[5]), int.Parse(splitLine[6]) });
-                        break;
-                    case '2':
-                        lights[i] = new ReflectorLight(
-                            new float[] { float.Parse(splitLine[1]), float.Parse(splitLine[2]), float.Parse(splitLine[3])},
-                            new float[] { float.Parse(splitLine[4]), float.Parse(splitLine[5]), float.Parse(splitLine[6])},
-                            float.Parse(splitLine[7]),
-                            new int[] { int.Parse(splitLine[8]), int.Parse(splitLine[9]), int.Parse(splitLine[10])}
-                            );
-                        break;
-                }
-            }
-
-            sr.Close();
-            file.Close();
-            return lights;
-        }
     }
-
 }

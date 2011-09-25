@@ -88,6 +88,7 @@
     <Compile Include="RayCaster.cs" />
     <Compile Include="ReflectorLight.cs" />
     <Compile Include="Sphere.cs" />
+    <Compile Include="TextLightsParser.cs" />
     <Compile Include="TextSceneParser.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="TreeOperation.cs" />

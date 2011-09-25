@@ -45,10 +45,10 @@ namespace Csg
             WorldToScene(wx0, wy0, out x0, out y0);
             WorldToScene(wx1, wy1, out x1, out y1);
 
-            x0 = Math.Min(Width, Math.Max(0, x0));
-            x1 = Math.Min(Width, Math.Max(0, x1));
-            y0 = Math.Min(Height, Math.Max(0, y0));
-            y1 = Math.Min(Height, Math.Max(0, y1));
+            x0 = Math.Min(Width - 1, Math.Max(0, x0));
+            x1 = Math.Min(Width - 1, Math.Max(0, x1));
+            y0 = Math.Min(Height - 1, Math.Max(0, y0));
+            y1 = Math.Min(Height - 1, Math.Max(0, y1));
 
 
             RayCast(x0, y0, x1, y1);
@@ -59,18 +59,19 @@ namespace Csg
         private void UpdateSpheresPositions()
         {
             for (int i = 0; i < TreeNode.AllTreeSpheres.Length; i++)
+            {
                 TreeNode.AllTreeSpheres[i].S.updateCurrPosition(M);
+            }
         }
 
         private void RayCast(int x0, int y0, int x1, int y1)
         {
-            foreach (int i in Enumerable.Range(x0, x1 - x0))
+            var generatedPairs = Enumerable.Range(x0, x1 - x0 + 1).SelectMany(i => Enumerable.Range(y0, y1 - y0 + 1).Select(j => new {i, j}));
+
+            foreach (var ij in generatedPairs)
             {
-                foreach (int j in Enumerable.Range(y0, y1 - y0))
-                {
-                    RayCast(i, j);
-                }
-            }     
+                RayCast(ij.i, ij.j);
+            }
         }
 
         private void RayCast(int i, int j)
@@ -93,17 +94,21 @@ namespace Csg
         private int[] CalculateLights(float x, float y, Interval interval)
         {
             int[] col = new int[3];
+
             for (int k = 0; k < Lights.Length; k++)
-            {
-                Light.SphereNormal = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
-                Light.MaterialColor = interval.ColourA;
-                Light.SpherePosition = new float[] { x, y, interval.A };
-                int[] c = Lights[k].CalculateLight();
+            {   
+                var spherePosition = new float[] { x, y, interval.A };
+                var sphereNormal = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
+                var materialColor = interval.ColourA;
+
+                int[] c = Lights[k].CalculateLight(spherePosition, sphereNormal, materialColor);
+
                 for (int l = 0; l < 3; l++)
                 {
                     col[l] += c[l];
                 }
             }
+
             return col;
         }
 

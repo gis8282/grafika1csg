@@ -43,8 +43,8 @@ namespace Csg
             x0 = S.CurrentPosition[0] - S.Radius;
             y0 = S.CurrentPosition[1] - S.Radius;
 
-            x1 = S.CurrentPosition[0] + S.Radius + 1;
-            y1 = S.CurrentPosition[1] + S.Radius + 1;
+            x1 = S.CurrentPosition[0] + S.Radius;
+            y1 = S.CurrentPosition[1] + S.Radius;
             return true;
         }
     }

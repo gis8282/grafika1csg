@@ -102,7 +102,7 @@ namespace Csg
 
         public void putPixel(int x, int y, int r, int g, int b)
         {
-            this.Invoke(new MethodInvoker(delegate { bitmap.SetPixel(x, y, Color.FromArgb(r, g, b)); }));
+            bitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
         }
 
 
@@ -160,7 +160,7 @@ namespace Csg
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                r.Lights = Light.ReadFile(openFileDialog1.FileName);
+                r.Lights = new TextLightsParser().ReadFile(openFileDialog1.FileName);
                 this.debug.Text = openFileDialog1.FileName;
             }
             Invalidate();

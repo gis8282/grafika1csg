@@ -6,49 +6,44 @@ namespace Csg
 {
     class ReflectorLight : Light
     {
-        float[] _dir;
-        float[] _position;
-        float _suppression;
-
-
-        public float[] D { get { return _dir; } set { _dir = value; } }
-        public float[] PosL { get { return _position; } set { _position = value; } }
-        public float S { get { return _suppression; } set { _suppression = value; } }
-        public float[] Ref { get { return new float[] { 2 * Normal[0] - (PosL[0] - PosS[0]), 2 * Normal[1] - (PosL[1] - PosS[1]), 2 * Normal[2] - (PosL[2] - PosS[2]) }; } }
+        public float[] Direction { get; set; }
+        public float[] LightPosition { get; set; }
+        public float Suppression { get; set; }
+        public float[] Ref { get { return new float[] { 2 * SphereNormal[0] - (LightPosition[0] - SpherePosition[0]), 2 * SphereNormal[1] - (LightPosition[1] - SpherePosition[1]), 2 * SphereNormal[2] - (LightPosition[2] - SpherePosition[2]) }; } }
 
         public ReflectorLight(float[] position, float[] dir, float suppresion, int[] colorL)
         {
-            _dir = dir;
-            _position = position;
-            _suppression = suppresion;
-            _colorL = colorL;
+            Direction = dir;
+            LightPosition = position;
+            Suppression = suppresion;
+            LightColor = colorL;
         }
         public override int[] CalculateLight()
         {
-            float[] Ka = new float[] { (0.4f * _colorM[0] / 255f), (0.4f * _colorM[1] / 255f), (0.4f * _colorM[2] / 255f) };
-            float[] Kd = new float[] { _colorM[0] / 255f, _colorM[1] / 255f, _colorM[2] / 255f };
+            float[] Ka = new float[] { (0.4f * MaterialColor[0] / 255f), (0.4f * MaterialColor[1] / 255f), (0.4f * MaterialColor[2] / 255f) };
+            float[] Kd = new float[] { MaterialColor[0] / 255f, MaterialColor[1] / 255f, MaterialColor[2] / 255f };
             float[] Ks = new float[] { 1f, 1f, 1f };
-            float[] L = new float[] { _colorL[0] / 255f, _colorL[1] / 255f, _colorL[2] / 255f };
+            float[] L = new float[] { LightColor[0] / 255f, LightColor[1] / 255f, LightColor[2] / 255f };
 
             float m = Light.M;
 
-            float[] l = new float[] { PosL[0] - _posS[0], PosL[1] - _posS[1], PosL[2] - _posS[2] };
+            float[] l = new float[] { LightPosition[0] - SpherePosition[0], LightPosition[1] - SpherePosition[1], LightPosition[2] - SpherePosition[2] };
             //zbedne
-            l = Light.Normalize(l);
-            Normal = Light.Normalize(Normal);
-            float n_l = l[0] * Normal[0] + l[1] * Normal[1] + l[2] * Normal[2];
+            l = l.Normalize();
+            SphereNormal = SphereNormal.Normalize();
+            float n_l = l[0] * SphereNormal[0] + l[1] * SphereNormal[1] + l[2] * SphereNormal[2];
             n_l = Math.Max(0, n_l);
-            float k = _suppression;
+            float k = Suppression;
 
-            float[] posS_L = new float[] { -(PosS[0] - PosL[0]), -(PosS[1] - PosL[1]), -(PosS[2] - PosL[2]) };
-            float[] d = new float[] { D[0], D[1], D[2] };
-            d = Light.Normalize(d);
-            posS_L = Light.Normalize(posS_L);
+            float[] posS_L = new float[] { -(SpherePosition[0] - LightPosition[0]), -(SpherePosition[1] - LightPosition[1]), -(SpherePosition[2] - LightPosition[2]) };
+            float[] d = new float[] { Direction[0], Direction[1], Direction[2] };
+            d = d.Normalize();
+            posS_L = posS_L.Normalize();
             float att = posS_L[0] * d[0] + posS_L[1] * d[1] + posS_L[2] * d[2];
             att *= -1;
             att = (float)Math.Pow(att, k);
             float[] r = new float[3] { Ref[0], Ref[1], Ref[2] };
-            r = Light.Normalize(r);
+            r = r.Normalize();
             float r_l = r[0] * l[0] + r[1] * l[1] + r[2] * l[2];
             r_l = (float)Math.Pow(Math.Max(0f, r_l), m);
 

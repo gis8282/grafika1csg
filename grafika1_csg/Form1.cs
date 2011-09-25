@@ -28,7 +28,7 @@ namespace Csg
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
+            bitmap = new Bitmap(Math.Max(1, panel.ClientSize.Width), Math.Max(1, panel.ClientSize.Height));
 
             r.Width = bitmap.Width;
             r.Height = bitmap.Height;

@@ -47,12 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirectLight.cs" />
+    <Compile Include="FloatArrayExtensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ILightsParser.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="ISceneParser.cs" />
     <Compile Include="Light.cs" />

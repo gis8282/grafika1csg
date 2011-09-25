@@ -5,25 +5,19 @@ using System.IO;
 
 namespace Csg
 {
-    abstract class Light
+    public abstract class Light
     {
         abstract public int[] CalculateLight();
 
-        protected int[] _colorL;
-        protected static int[] _colorM;
-        protected static float[] _posS;
-
-        public static float[] Normal { get; set; }
         public static float M { get; set; }
-        public static int[] ColorM { get { return _colorM; } set { _colorM = value; } }
-        public int[] cL { get { return _colorL; } set { _colorL = value; } }
-        public static float[] PosS { get { return _posS; } set { _posS = value; } }
 
-        public static float[] Normalize(float[] vec)
-        {
-            float length = (float)Math.Sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
-            return new float[] { vec[0] / length, vec[1] / length, vec[2] / length };
-        }
+        public static float[] SphereNormal { get; set; }
+        public static float[] SpherePosition { get; set; }
+
+        public static int[] MaterialColor { get; set; }
+        public int[] LightColor { get; set; }
+        
+
 
         public static Light[] ReadFile(string fileName)
         {

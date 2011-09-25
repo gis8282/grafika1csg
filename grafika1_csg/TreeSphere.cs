@@ -40,11 +40,11 @@ namespace Csg
 
         public override bool FindRect(out float x0, out float y0, out float x1, out float y1)
         {
-            x0 = ((this as TreeSphere).S.CurrentPosition[0] - (this as TreeSphere).S.Radius);
-            y0 = ((this as TreeSphere).S.CurrentPosition[1] - (this as TreeSphere).S.Radius);
+            x0 = S.CurrentPosition[0] - S.Radius;
+            y0 = S.CurrentPosition[1] - S.Radius;
 
-            x1 = (((this as TreeSphere).S.CurrentPosition[0] + (this as TreeSphere).S.Radius));
-            y1 = ((this as TreeSphere).S.CurrentPosition[1] + (this as TreeSphere).S.Radius);
+            x1 = S.CurrentPosition[0] + S.Radius + 1;
+            y1 = S.CurrentPosition[1] + S.Radius + 1;
             return true;
         }
     }

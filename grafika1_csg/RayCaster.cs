@@ -45,10 +45,10 @@ namespace Csg
             WorldToScene(wx0, wy0, out x0, out y0);
             WorldToScene(wx1, wy1, out x1, out y1);
 
-            x0 = Math.Min(Width - 1, Math.Max(0, x0));
-            x1 = Math.Min(Width - 1, Math.Max(0, x1));
-            y0 = Math.Min(Height - 1, Math.Max(0, y0));
-            y1 = Math.Min(Height - 1, Math.Max(0, y1));
+            x0 = Math.Min(Width, Math.Max(0, x0));
+            x1 = Math.Min(Width, Math.Max(0, x1));
+            y0 = Math.Min(Height, Math.Max(0, y0));
+            y1 = Math.Min(Height, Math.Max(0, y1));
 
 
             RayCast(x0, y0, x1, y1);
@@ -64,16 +64,16 @@ namespace Csg
 
         private void RayCast(int x0, int y0, int x1, int y1)
         {
-            foreach (int i in Enumerable.Range(x0, x1 - x0).Where(x => x > 0 && x < Width))
+            foreach (int i in Enumerable.Range(x0, x1 - x0))
             {
-                foreach (int j in Enumerable.Range(y0, y1 - y0).Where(y => y >0 && y < Height))
+                foreach (int j in Enumerable.Range(y0, y1 - y0))
                 {
                     RayCast(i, j);
                 }
             }     
         }
 
-        private int RayCast(int i, int j)
+        private void RayCast(int i, int j)
         {
             float x, y;
 
@@ -88,8 +88,6 @@ namespace Csg
                         Math.Min(255, Math.Max(0, col[1])),
                         Math.Min(255, Math.Max(0, col[2])));
             }
-
-            return 0;
         }
 
         private int[] CalculateLights(float x, float y, Interval interval)
@@ -97,9 +95,9 @@ namespace Csg
             int[] col = new int[3];
             for (int k = 0; k < Lights.Length; k++)
             {
-                Light.Normal = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
-                Light.ColorM = interval.ColourA;
-                Light.PosS = new float[] { x, y, interval.A };
+                Light.SphereNormal = new float[] { interval.NA[0], interval.NA[1], interval.NA[2] };
+                Light.MaterialColor = interval.ColourA;
+                Light.SpherePosition = new float[] { x, y, interval.A };
                 int[] c = Lights[k].CalculateLight();
                 for (int l = 0; l < 3; l++)
                 {

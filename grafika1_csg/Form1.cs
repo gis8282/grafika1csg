@@ -17,7 +17,7 @@ namespace Csg
 
         public Form1()
         {
-            r = new RayCaster(putPixel, DrawRect);
+            r = new RayCaster(new TextSceneParser(), new TextLightsParser(), putPixel, DrawRect);
 
             InitializeComponent();
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
@@ -48,9 +48,8 @@ namespace Csg
             startOfRendering = DateTime.Now;
 
             ClearScreen();
- 
-            if (r.Root != null)
-                r.RayCast();
+                
+            r.RayCast();
 
             r.DrawRects();
             this.pictureBox.Image = bitmap;
@@ -115,7 +114,7 @@ namespace Csg
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                r.Root = new TextSceneParser().ReadFile(openFileDialog1.FileName);
+                r.ReadScene(openFileDialog1.FileName);
                 this.debug.Text = openFileDialog1.FileName;
             }
             Invalidate();
@@ -160,7 +159,7 @@ namespace Csg
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                r.Lights = new TextLightsParser().ReadFile(openFileDialog1.FileName);
+                r.ReadLights(openFileDialog1.FileName);
                 this.debug.Text = openFileDialog1.FileName;
             }
             Invalidate();

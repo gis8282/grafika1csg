@@ -16,13 +16,18 @@ namespace Csg
         public int Height { get; set; }
         
         public Matrix4x4 M { get; set; }
-        public TreeOperation Root { get; set; }
-        public Light[] Lights { get; set; }
+        private TreeOperation Root { get; set; }
+        private Light[] Lights { get; set; }
 
         public bool ShowRect { get; set; }
 
-        public RayCaster(Action<int, int, int, int, int> putPixel, Action<int, int, int, int> drawRect)
+        private ISceneParser _sceneParser;
+        private ILightsParser _lightsParser;
+
+        public RayCaster(ISceneParser sceneParser, ILightsParser lightsParser, Action<int, int, int, int, int> putPixel, Action<int, int, int, int> drawRect)
         {
+            _sceneParser = sceneParser;
+            _lightsParser = lightsParser;
             _putPixel = putPixel;
             _drawRect = drawRect;
 
@@ -32,8 +37,23 @@ namespace Csg
             ShowRect = true;
         }
 
+        public void ReadScene(string fileName)
+        {
+            Root = _sceneParser.ReadFile(fileName);
+        }
+
+        public void ReadLights(string fileName)
+        {
+            Lights = _lightsParser.ReadFile(fileName);
+        }
+
         public void RayCast()
         {
+            if (Root == null)
+            {
+                return;
+            }
+
             UpdateSpheresPositions();
 
             float wx0, wy0, wx1, wy1;

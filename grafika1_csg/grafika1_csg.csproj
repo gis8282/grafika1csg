@@ -58,7 +58,6 @@
     <Compile Include="Interval.cs" />
     <Compile Include="ISceneParser.cs" />
     <Compile Include="Light.cs" />
-    <Compile Include="Matrix4x4.cs" />
     <Compile Include="OperationType.cs" />
     <Compile Include="PointLight.cs" />
     <Compile Include="Program.cs" />
@@ -94,7 +93,12 @@
     <Compile Include="TreeOperation.cs" />
     <Compile Include="TreeSphere.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CSG\CSG.csproj">
+      <Project>{80C7E488-820D-4E63-841F-A1C201B4E1E4}</Project>
+      <Name>CSG</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -66,7 +66,7 @@ namespace Csg
 
         private void RayCast(int x0, int y0, int x1, int y1)
         {
-            var generatedPairs = Enumerable.Range(x0, x1 - x0 + 1).SelectMany(i => Enumerable.Range(y0, y1 - y0 + 1).Select(j => new {i, j}));
+            var generatedPairs = ParallelEnumerable.Range(x0, x1 - x0 + 1).SelectMany(i => Enumerable.Range(y0, y1 - y0 + 1).Select(j => new { i, j }));
 
             foreach (var ij in generatedPairs)
             {
@@ -74,7 +74,7 @@ namespace Csg
             }
         }
 
-        private void RayCast(int i, int j)
+        private int RayCast(int i, int j)
         {
             float x, y;
 
@@ -89,6 +89,8 @@ namespace Csg
                         Math.Min(255, Math.Max(0, col[1])),
                         Math.Min(255, Math.Max(0, col[2])));
             }
+
+            return 0;
         }
 
         private int[] CalculateLights(float x, float y, Interval interval)

@@ -40,8 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectLight.cs" />
+    <Compile Include="FloatArrayExtensions.cs" />
+    <Compile Include="ILightsParser.cs" />
+    <Compile Include="Interval.cs" />
+    <Compile Include="ISceneParser.cs" />
+    <Compile Include="Light.cs" />
     <Compile Include="Matrix4x4.cs" />
+    <Compile Include="OperationType.cs" />
+    <Compile Include="PointLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RayCaster.cs" />
+    <Compile Include="ReflectorLight.cs" />
+    <Compile Include="Sphere.cs" />
+    <Compile Include="TextLightsParser.cs" />
+    <Compile Include="TextSceneParser.cs" />
+    <Compile Include="TreeNode.cs" />
+    <Compile Include="TreeOperation.cs" />
+    <Compile Include="TreeSphere.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

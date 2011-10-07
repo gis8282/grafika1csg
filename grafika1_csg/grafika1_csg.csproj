@@ -46,20 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectLight.cs" />
-    <Compile Include="FloatArrayExtensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ILightsParser.cs" />
-    <Compile Include="Interval.cs" />
-    <Compile Include="ISceneParser.cs" />
-    <Compile Include="Light.cs" />
-    <Compile Include="OperationType.cs" />
-    <Compile Include="PointLight.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -84,14 +76,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RayCaster.cs" />
-    <Compile Include="ReflectorLight.cs" />
-    <Compile Include="Sphere.cs" />
-    <Compile Include="TextLightsParser.cs" />
-    <Compile Include="TextSceneParser.cs" />
-    <Compile Include="TreeNode.cs" />
-    <Compile Include="TreeOperation.cs" />
-    <Compile Include="TreeSphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSG\CSG.csproj">

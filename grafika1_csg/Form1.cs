@@ -104,7 +104,6 @@ namespace Csg
             bitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
         }
 
-
         private void koniecToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();

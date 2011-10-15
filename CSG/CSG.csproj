@@ -8,8 +8,8 @@
     <ProjectGuid>{80C7E488-820D-4E63-841F-A1C201B4E1E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSG</RootNamespace>
-    <AssemblyName>CSG</AssemblyName>
+    <RootNamespace>Csg</RootNamespace>
+    <AssemblyName>Csg</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Irony">
+      <HintPath>..\lib\Irony.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +56,7 @@
     <Compile Include="RayCaster.cs" />
     <Compile Include="ReflectorLight.cs" />
     <Compile Include="Sphere.cs" />
+    <Compile Include="SphereScriptParser.cs" />
     <Compile Include="TextLightsParser.cs" />
     <Compile Include="TextSceneParser.cs" />
     <Compile Include="TreeNode.cs" />

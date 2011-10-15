@@ -7,6 +7,6 @@ namespace Csg
 {
     public interface ILightsParser
     {
-        Light[] ReadFile(string fileName);
+        Light[] ParseLights(string fileName);
     }
 }

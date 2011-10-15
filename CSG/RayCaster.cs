@@ -16,7 +16,7 @@ namespace Csg
         public int Height { get; set; }
         
         public Matrix4x4 M { get; set; }
-        private TreeOperation Root { get; set; }
+        private TreeNode Root { get; set; }
         private Light[] Lights { get; set; }
 
         public bool ShowRect { get; set; }
@@ -39,12 +39,12 @@ namespace Csg
 
         public void ReadScene(string fileName)
         {
-            Root = _sceneParser.ReadFile(fileName);
+            Root = _sceneParser.ParseScene(fileName);
         }
 
         public void ReadLights(string fileName)
         {
-            Lights = _lightsParser.ReadFile(fileName);
+            Lights = _lightsParser.ParseLights(fileName);
         }
 
         public void RayCast()
@@ -87,7 +87,7 @@ namespace Csg
         private void RayCast(int x0, int y0, int x1, int y1)
         {
             var generatedPairs = Enumerable.Range(x0, x1 - x0 + 1).SelectMany(i => Enumerable.Range(y0, y1 - y0 + 1).Select(j => new { i, j }));
-            var result = generatedPairs.AsParallel().Select(ij => new { ij.i, ij.j, color = RayCast(ij.i, ij.j) });
+            var result = generatedPairs/*.AsParallel()*/.Select(ij => new { ij.i, ij.j, color = RayCast(ij.i, ij.j) });
 
             foreach (var pixel in result)
             {

@@ -8,7 +8,12 @@ namespace Csg
         public int[] Color { get; set; }
 
         public float[] CurrentPosition { get; set; }
-        
+
+        public Sphere(double[] position, double radius, int[] color)
+            : this(new float[] { (float)position[0], (float)position[1], (float)position[2] }, (float)radius, color)
+        {
+        }
+
         public Sphere(float[] position, float radius, int[] color)
         {
             CurrentPosition = new float[4];

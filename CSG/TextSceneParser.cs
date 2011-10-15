@@ -5,7 +5,7 @@ namespace Csg
 {
     public class TextSceneParser : ISceneParser
     {
-        public TreeOperation ReadFile(string fileName)
+        public TreeNode ParseScene(string fileName)
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))

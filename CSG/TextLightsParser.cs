@@ -8,7 +8,7 @@ namespace Csg
 {
     public class TextLightsParser : ILightsParser
     {
-        public Light[] ReadFile(string fileName)
+        public Light[] ParseLights(string fileName)
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read);

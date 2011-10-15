@@ -7,6 +7,6 @@ namespace Csg
 {
     public interface ISceneParser
     {
-        TreeOperation ReadFile(string fileName);
+        TreeNode ParseScene(string fileName);
     }
 }

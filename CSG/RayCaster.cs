@@ -78,16 +78,16 @@ namespace Csg
 
         private void UpdateSpheresPositions()
         {
-            for (int i = 0; i < TreeNode.AllTreeSpheres.Length; i++)
+            foreach(var sphere in Root.GetAllSpheres())
             {
-                TreeNode.AllTreeSpheres[i].S.updateCurrPosition(M);
+                sphere.updateCurrPosition(M);
             }
         }
 
         private void RayCast(int x0, int y0, int x1, int y1)
         {
             var generatedPairs = Enumerable.Range(x0, x1 - x0 + 1).SelectMany(i => Enumerable.Range(y0, y1 - y0 + 1).Select(j => new { i, j }));
-            var result = generatedPairs/*.AsParallel()*/.Select(ij => new { ij.i, ij.j, color = RayCast(ij.i, ij.j) });
+            var result = generatedPairs.AsParallel().Select(ij => new { ij.i, ij.j, color = RayCast(ij.i, ij.j) });
 
             foreach (var pixel in result)
             {
@@ -156,10 +156,10 @@ namespace Csg
         public void DrawRects()
         {
             
-            for (int i = 0; i < TreeNode.AllTreeSpheres.Length; i++)
+            foreach(var sphere in Root.GetAllSpheres())
             {
-                float[] currPos = (TreeNode.AllTreeSpheres[i] as TreeSphere).S.CurrentPosition;
-                float r = (TreeNode.AllTreeSpheres[i] as TreeSphere).S.Radius;
+                float[] currPos = sphere.CurrentPosition;
+                float r = sphere.Radius;
                 int x0, y0, x1, y1;
                 WorldToScene(currPos[0] - r, currPos[1] - r, out x0, out y0);
                 WorldToScene(currPos[0] + r, currPos[1] + r, out x1, out y1);

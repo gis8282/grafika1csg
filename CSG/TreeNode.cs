@@ -1,10 +1,27 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Csg
 {
     public abstract class TreeNode
     {
-        public static TreeSphere[] AllTreeSpheres = new TreeSphere[0];
+        public IEnumerable<Sphere> GetAllSpheres()
+        {
+            var treeSphere = this as TreeSphere;
+
+            if (treeSphere != null)
+            {
+                yield return treeSphere.S;
+            }
+            else
+            {
+                var treeOperation = this as TreeOperation;
+
+                foreach(var sphere in treeOperation.Left.GetAllSpheres().Concat(treeOperation.Right.GetAllSpheres())) {
+                    yield return sphere;
+                }
+            }
+        }
 
         public abstract List<Interval> TraverseTree(float x, float y);
 

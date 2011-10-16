@@ -17,7 +17,7 @@ namespace Csg
 
         public Form1()
         {
-            r = new RayCaster(new SphereScriptParser(), new TextLightsParser(), putPixel, DrawRect);
+            r = new RayCaster(new TextSceneParser(), new TextLightsParser(), putPixel, DrawRect);
 
             InitializeComponent();
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);

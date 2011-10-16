@@ -1,12 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Csg
 {
     public class TextSceneParser : ISceneParser
     {
+        private List<TreeNode> _allSpheres = new List<TreeNode>();
+
         public TreeNode ParseScene(string fileName)
         {
+            _allSpheres.Clear();
+
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
@@ -17,13 +22,12 @@ namespace Csg
                     int sphereNumber = int.Parse(line);
                     int operationNumber = sphereNumber - 1;
 
-                    TreeNode.AllTreeSpheres = new TreeSphere[sphereNumber];
                     TreeOperation[] treeOp = new TreeOperation[operationNumber];
 
                     for (int i = 0; i < sphereNumber; i++)
                     {
                         line = sr.ReadLine();
-                        TreeNode.AllTreeSpheres[i] = ParseLineWithSphere(line);
+                        _allSpheres.Add(ParseLineWithSphere(line));
                     }
 
                     for (int i = 0; i < operationNumber; i++)
@@ -55,12 +59,12 @@ namespace Csg
             TreeNode left = null, right = null;
 
             if (int.Parse(splitLine[1]) > 0)
-                left = TreeNode.AllTreeSpheres[int.Parse(splitLine[1]) - 1];
+                left = _allSpheres[int.Parse(splitLine[1]) - 1];
             else
                 left = treeOp[-int.Parse(splitLine[1]) - 1];
 
             if (int.Parse(splitLine[2]) > 0)
-                right = TreeNode.AllTreeSpheres[int.Parse(splitLine[2]) - 1];
+                right = _allSpheres[int.Parse(splitLine[2]) - 1];
             else
                 right = treeOp[-int.Parse(splitLine[2]) - 1];
 

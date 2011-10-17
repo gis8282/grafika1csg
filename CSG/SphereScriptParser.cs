@@ -17,6 +17,8 @@ namespace Csg
         private const string ADD = "addition";
         private const string SUB = "subtraction";
         private const string INTER = "intersection";
+        private const string SIGNEDNUMBER = "signedNumber";
+        private const string MINUS = "-";
 
         private List<TreeSphere> _allSpheres = new List<TreeSphere>();
 
@@ -27,16 +29,21 @@ namespace Csg
                 var position = new NonTerminal(POSITION);
                 var color = new NonTerminal(COLOR);
                 var radius = new NonTerminal(RADIUS);
+                var signedNumber = new NonTerminal(SIGNEDNUMBER);
                 var number = new NumberLiteral(NUMBER);
                 var treeOp = new NonTerminal(TREEOPERATION);
                 var addition = new NonTerminal(ADD);
                 var subtraction = new NonTerminal(SUB);
                 var intersection = new NonTerminal(INTER);
                 var sphere = new NonTerminal(SPHERE);
+                var minus = new NonTerminal(MINUS);
 
                 Root = treeOp;
 
-                position.Rule = "pos" + number + number + number;
+                minus.Rule = ToTerm("-");
+                signedNumber.Rule = minus + number | number;
+               
+                position.Rule = "pos" + signedNumber + signedNumber + signedNumber;
                 color.Rule = "col" + number + number + number;
                 radius.Rule = "radius" + number;
 
@@ -58,9 +65,10 @@ namespace Csg
             var language = new LanguageData(sg);
             var parser = new Parser(language);
 
-            var x = parser.Parse(@"(sphere pos 1.0 0.0 0.0 col 255 128 0 radius 0.9
-                                   + sphere pos 3.0 0.0 0.0 col 252 18 222 radius 0.9) 
-                                   - sphere pos 2.0 0.0 0.0 col 0 128 255 radius 0.9 
+            var x = parser.Parse(@"(sphere pos -3.0 0.0 0.0 col 255 128 0 radius 1.0
+                                   + sphere pos 0.0 0.0 0.0 col 252 18 222 radius 1.0 
+                                   + sphere pos 3.0 0.0 0.0 col 222 128 55 radius 1.0) 
+                                   * (sphere pos -1.5 1.0 0.0 col 100 100 100 radius 1.0 + sphere pos 1.5 1.0 0.0 col 100 100 100 radius 1.0)
                                     
             ");
             TreeNode root = ConvertParseTreeToTreeNode(x);
@@ -92,7 +100,7 @@ namespace Csg
 
                 var positionNode = parseTreeNode.ChildNodes.First(ptn => ptn.Term.Name == POSITION);
 
-                var positionNumbers = positionNode.ChildNodes.Where(ptn => ptn.Term.Name == NUMBER).Select(pn => pn.Token.Value).Cast<double>();
+                var positionNumbers = positionNode.ChildNodes.Where(ptn => ptn.Term.Name == SIGNEDNUMBER).Select(pn => GetSignedNumber(pn));
 
                 var colorNode = parseTreeNode.ChildNodes.First(ptn => ptn.Term.Name == COLOR);
 
@@ -119,6 +127,19 @@ namespace Csg
                 return new TreeOperation(OperationType.intersection, ConvertParseTreeToTreeNode(parseTreeNode.ChildNodes.First()), ConvertParseTreeToTreeNode(parseTreeNode.ChildNodes.Last()));
             }
             return null;
+        }
+
+        private double GetSignedNumber(ParseTreeNode pn)
+        {
+            var number = (double)pn.ChildNodes.First(ptn => ptn.Term.Name == NUMBER).Token.Value;
+            var minus = pn.ChildNodes.FirstOrDefault(ptn => ptn.Term.Name == MINUS);
+
+            if (minus != null)
+            {
+                number *= -1;
+            }
+
+            return number;
         }
     }
 }

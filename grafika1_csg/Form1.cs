@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Csg
 {
@@ -17,7 +18,7 @@ namespace Csg
 
         public Form1()
         {
-            r = new RayCaster(new SphereScriptParser(), new TextLightsParser(), putPixel, DrawRect);
+            r = new RayCaster(putPixel, DrawRect);
 
             InitializeComponent();
             bitmap = new Bitmap(this.panel.ClientSize.Width, this.panel.ClientSize.Height);
@@ -113,7 +114,17 @@ namespace Csg
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                r.ReadScene(openFileDialog1.FileName);
+                ISceneParser sceneParser = null;
+                if (Path.GetExtension(openFileDialog1.FileName) == ".sl")
+                {
+                    sceneParser = new SphereScriptParser();
+                }
+                else
+                {
+                    sceneParser = new TextSceneParser();
+                }
+
+                r.Root = sceneParser.ParseScene(openFileDialog1.FileName);
                 this.debug.Text = openFileDialog1.FileName;
             }
             Invalidate();
@@ -158,7 +169,8 @@ namespace Csg
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                r.ReadLights(openFileDialog1.FileName);
+                
+                r.Lights = new TextLightsParser().ParseLights(openFileDialog1.FileName);
                 this.debug.Text = openFileDialog1.FileName;
             }
             Invalidate();

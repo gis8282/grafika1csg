@@ -14,6 +14,9 @@ namespace Csg
         private float[] _nb = new float[3];
 
         public float A { get { return _a; } }
+
+        //not needed, should be internal visible to Csg.Test
+        public float B { get { return _b; } }
         public int[] ColourA { get { return _ca; } set { _ca = value; } }
         public int[] ColourB { get { return _cb; } set { _cb = value; } }
         public float[] NA { get { return _na; } set { _na = value; } }
@@ -84,9 +87,9 @@ namespace Csg
                 CopyLL(newI, arg1);
 
             if (arg1._b < arg2._b)
-                CopyRR(newI, arg2);
-            else
                 CopyRR(newI, arg1);
+            else
+                CopyRR(newI, arg2);
 
             return newI;
         }

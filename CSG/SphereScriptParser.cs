@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Irony.Parsing;
+using System.IO;
 
 namespace Csg
 {
@@ -58,19 +59,16 @@ namespace Csg
             }
         }
 
-        public TreeNode ParseScene(string script)
+        public TreeNode ParseScene(string fileName)
         {
             var sg = new SphereGrammar();
 
             var language = new LanguageData(sg);
             var parser = new Parser(language);
 
-            var x = parser.Parse(@"(sphere pos -3.0 0.0 0.0 col 255 128 0 radius 1.0
-                                   + sphere pos 0.0 0.0 0.0 col 252 18 222 radius 1.0 
-                                   + sphere pos 3.0 0.0 0.0 col 222 128 55 radius 1.0) 
-                                   * (sphere pos -1.5 1.0 0.0 col 100 100 100 radius 1.0 + sphere pos 1.5 1.0 0.0 col 100 100 100 radius 1.0)
-                                    
-            ");
+            var script = new StreamReader(fileName).ReadToEnd();
+
+            var x = parser.Parse(script);
             TreeNode root = ConvertParseTreeToTreeNode(x);
 
             return root;

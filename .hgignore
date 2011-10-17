@@ -2,3 +2,12 @@ syntax: glob
 grafika1_csg/bin/
 grafika1_csg.suo
 grafika1_csg/obj/
+TestResults
+Csg/bin
+Csg.Test/bin
+Csg.Test/obj
+Csg/obj
+grafika1_csg.vsmdi
+grafika1_csg/grafika1_csg.csproj.user
+Local.testsettings
+TraceAndTestImpact.testsettings

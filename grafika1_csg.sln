@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "grafika1_csg", "grafika1_csg\grafika1_csg.csproj", "{24990E58-7672-4DBA-835C-635C5DE508F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSG", "CSG\CSG.csproj", "{80C7E488-820D-4E63-841F-A1C201B4E1E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csg", "CSG\Csg.csproj", "{80C7E488-820D-4E63-841F-A1C201B4E1E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csg.Test", "Csg.Test\Csg.Test.csproj", "{A4260369-E95D-489A-AF82-DAE0F725B788}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2515BAF9-190D-4E33-BA26-FB7CD44DD6DB}"
+	ProjectSection(SolutionItems) = preProject
+		grafika1_csg.vsmdi = grafika1_csg.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = grafika1_csg.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -19,6 +31,10 @@ Global
 		{80C7E488-820D-4E63-841F-A1C201B4E1E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80C7E488-820D-4E63-841F-A1C201B4E1E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80C7E488-820D-4E63-841F-A1C201B4E1E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4260369-E95D-489A-AF82-DAE0F725B788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4260369-E95D-489A-AF82-DAE0F725B788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4260369-E95D-489A-AF82-DAE0F725B788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4260369-E95D-489A-AF82-DAE0F725B788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

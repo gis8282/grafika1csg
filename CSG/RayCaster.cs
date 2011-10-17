@@ -16,18 +16,13 @@ namespace Csg
         public int Height { get; set; }
         
         public Matrix4x4 M { get; set; }
-        private TreeNode Root { get; set; }
-        private Light[] Lights { get; set; }
+        public TreeNode Root { get; set; }
+        public Light[] Lights { get; set; }
 
         public bool ShowRect { get; set; }
 
-        private ISceneParser _sceneParser;
-        private ILightsParser _lightsParser;
-
-        public RayCaster(ISceneParser sceneParser, ILightsParser lightsParser, Action<int, int, int, int, int> putPixel, Action<int, int, int, int> drawRect)
+        public RayCaster(Action<int, int, int, int, int> putPixel, Action<int, int, int, int> drawRect)
         {
-            _sceneParser = sceneParser;
-            _lightsParser = lightsParser;
             _putPixel = putPixel;
             _drawRect = drawRect;
 
@@ -35,16 +30,6 @@ namespace Csg
             M = new Matrix4x4();
             M.Identity();
             ShowRect = true;
-        }
-
-        public void ReadScene(string fileName)
-        {
-            Root = _sceneParser.ParseScene(fileName);
-        }
-
-        public void ReadLights(string fileName)
-        {
-            Lights = _lightsParser.ParseLights(fileName);
         }
 
         public void RayCast()
@@ -146,7 +131,7 @@ namespace Csg
             y = (2 * maxY * (float)ys / (float)Height - maxY) * Height / Width;
         }
 
-        [Conditional("Debug")]
+        [Conditional("DEBUG")]
         public void DrawRect(int x0, int y0, int x1, int y1)
         {
             _drawRect(x0, y0, x1, y1);
@@ -155,7 +140,10 @@ namespace Csg
         [Conditional("DEBUG")]
         public void DrawRects()
         {
-            
+            if (Root == null)
+            {
+                return;
+            }
             foreach(var sphere in Root.GetAllSpheres())
             {
                 float[] currPos = sphere.CurrentPosition;

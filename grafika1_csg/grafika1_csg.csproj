@@ -78,9 +78,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSG\CSG.csproj">
+    <ProjectReference Include="..\CSG\Csg.csproj">
       <Project>{80C7E488-820D-4E63-841F-A1C201B4E1E4}</Project>
-      <Name>CSG</Name>
+      <Name>Csg</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

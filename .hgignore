@@ -11,3 +11,6 @@ grafika1_csg.vsmdi
 grafika1_csg/grafika1_csg.csproj.user
 Local.testsettings
 TraceAndTestImpact.testsettings
+Csg.Gui.Wpf/bin
+Csg.Gui.Wpf/obj
+Csg.Gui.Wpf/Csg.Gui.Wpf.csproj.user

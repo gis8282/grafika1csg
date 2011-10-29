@@ -154,7 +154,7 @@ namespace Csg
                 var = 0;
             }
 
-            return result;
+            return new float[] { result[0] / result[3], result[1] / result[3], result[2] / result[3], 1 };
         }
 
         public static Matrix4x4 CreateRotateX(float alpha)

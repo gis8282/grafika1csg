@@ -8,17 +8,18 @@ namespace Csg
     {
         float[] _posL;
 
-        public PointLight()
-        {
-        }
         public PointLight(float[] posL, int[] colorL)
         {
             _posL= posL;
             LightColor = colorL;
         }
         public float[] PosL { get { return _posL; } set { _posL = value; } }
-        public float[] Ref(float[] posL, float[] spherePosition, float[] sphereNormal) { 
-            return new float[] { 2 * sphereNormal[0] - (posL[0] - spherePosition[0]), 2 * sphereNormal[1] - (posL[1] - spherePosition[1]), 2 * sphereNormal[2] - (posL[2] - spherePosition[2]) };
+        public float[] Ref(float[] posL, float[] spherePosition, float[] sphereNormal) {
+            var temp = new float[] { (posL[0] - sphereNormal[0]), (posL[1] - sphereNormal[1]), (posL[2] - sphereNormal[2]) };
+            temp = temp.Normalize();
+
+            var result = new float[] { 2 * sphereNormal[0] - temp[0], 2 * sphereNormal[1] - temp[1], 2 * sphereNormal[2] - temp[2] };
+            return result;
         }
 
 
@@ -32,7 +33,7 @@ namespace Csg
             float m = Light.M;
 
             float[] l = new float[] { _posL[0] - spherePosition[0], _posL[1] - spherePosition[1], _posL[2] - spherePosition[2] };
-            //zbedne
+
             l = l.Normalize();
             sphereNormal = sphereNormal.Normalize();
             float n_l = l[0] * sphereNormal[0] + l[1] * sphereNormal[1] + l[2] *sphereNormal[2];

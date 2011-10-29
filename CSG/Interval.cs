@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Csg
@@ -22,14 +23,23 @@ namespace Csg
         public float[] NA { get { return _na; } set { _na = value; } }
         public float[] NB { get { return _nb; } set { _nb = value; } }
 
-        public Interval() 
-        { 
+        protected Interval()
+        {
         }
 
         public Interval(float a, float b)
         {
             this._a = a;
             this._b = b;
+        }
+
+        private Interval(Interval arg)
+            : this(arg._a, arg._b)
+        {
+            _ca = arg._ca;
+            _cb = arg._cb;
+            _na = arg._na;
+            _nb = arg._nb;
         }
 
         public static Interval operator +(Interval arg1, Interval arg2)
@@ -71,8 +81,6 @@ namespace Csg
                 CopyLR(listI[listI.Count - 1], arg2);
                 CopyRR(listI[listI.Count - 1], arg1);
             }
-            if (listI.Count == 0)
-                listI = null;
 
             return listI;
         }
@@ -94,16 +102,14 @@ namespace Csg
             return newI;
         }
 
-        public static Interval Copy(Interval arg)
+        public static void Copy(Interval newI, Interval arg)
         {
-            Interval newI = new Interval(arg._a, arg._b);
-
+            newI._a = arg._a;
+            newI._b = arg._b;
             newI._ca = arg._ca;
             newI._cb = arg._cb;
             newI._na = arg._na;
             newI._nb = arg._nb;
-
-            return newI;
         }
 
         private static void CopyLL(Interval newI, Interval arg)
@@ -136,32 +142,31 @@ namespace Csg
 
         public static List<Interval> Union(List<Interval> arg1, List<Interval> arg2)
         {
-            List<Interval> newI = new List<Interval>();
-            int len = 0;
-            if (arg1 == null)
+            if (arg1.Count == 0)
                 return arg2;
-            else if (arg2 == null)
+            else if (arg2.Count == 0)
                 return arg1;
-            else if (arg1 == null && arg2 == null)
-                return null;
+
             arg1.AddRange(arg2);
             arg1.Sort();
 
-            newI.Add(arg1[len]);
-            for (int i = 1; i < arg1.Count; ++i)
+            List<Interval> newI = new List<Interval>();
+
+            newI.Add(arg1[0]);
+
+            foreach(var interval in arg1.Skip(1))
             {
-                if (Intersect(newI[len], arg1[i]) == true)
+                if (AreIntersecting(newI.Last(), interval) == true)
                 {
-                    newI.Add(newI[len] + arg1[i]);
-                    newI.RemoveAt(len);
+                    newI[newI.Count - 1] = newI.Last() + interval;
                 }
                 else
                 {
-                    newI.Add(arg1[i]);
-                    ++len;
+                    newI.Add(interval);
                 }
             }
-            return newI;            
+
+            return newI;
         }
 
         public static List<Interval> Difference(List<Interval> arg1, List<Interval> arg2)
@@ -169,87 +174,63 @@ namespace Csg
             List<Interval> newI = new List<Interval>();
             List<Interval> pomI = new List<Interval>();
 
-            if (arg1 == null)
-                return null;
-            else if (arg2 == null)
-                return arg1;
-            else if (arg1 == null && arg2 == null)
-                return null;
-
             for (int i = 0; i < arg1.Count; ++i)
             {
                 for (int j = 0; j < arg2.Count; ++j)
                 {
-                    if (Intersect(arg1[i], arg2[j]))
+                    if (AreIntersecting(arg1[i], arg2[j]))
                     {
                         pomI = arg1[i] - arg2[j];
-                        if (pomI != null)
+                        if (pomI.Count == 1)
                         {
-                            if (pomI.Count == 1)
-                            {
-                                arg1[i]._a = pomI[0]._a;
-                                arg1[i]._b = pomI[0]._b;
-                                arg1[i]._ca = pomI[0]._ca;
-                                arg1[i]._cb = pomI[0]._cb;
-                                arg1[i]._na = pomI[0]._na;
-                                arg1[i]._nb = pomI[0]._nb;
-                            }
-                            if (pomI.Count > 1)
-                            {
-                                newI.Add(Copy(pomI[0]));
-                                arg1[i]._a = pomI[1]._a;
-                                arg1[i]._b = pomI[1]._b;
-                                arg1[i]._ca = pomI[1]._ca;
-                                arg1[i]._cb = pomI[1]._cb;
-                                arg1[i]._na = pomI[1]._na;
-                                arg1[i]._nb = pomI[1]._nb;
-                            }
+                            Copy(arg1[i], pomI[0]);
+                        }
+                        else if (pomI.Count > 1)
+                        {
+                            newI.Add(new Interval(pomI[0]));
+
+                            Copy(arg1[i], pomI[1]);
                         }
                         else
                             goto FIRST_LOOP;
-                        
+
                     }
                 }
 
-                newI.Add(Copy(arg1[i]));
+                newI.Add(new Interval(arg1[i]));
             FIRST_LOOP: ;
             }
             return newI;
         }
-      
+
         public static List<Interval> Intersection(List<Interval> arg1, List<Interval> arg2)
         {
-            List<Interval> newI = new List<Interval>();
-            if (arg1 == null)
-                return null;
-            else if (arg2 == null)
-                return null;
-            else if (arg1 == null && arg2 == null)
-                return null;
+            //List<Interval> newI = new List<Interval>();
 
-            for (int i = 0; i < arg1.Count; ++i)
-            {
-                for (int j = 0; j < arg2.Count; ++j)
-                {
-                    if (Intersect(arg1[i], arg2[j]))
-                        newI.Add(arg1[i] * arg2[j]);
-                }
-            }
+            //for (int i = 0; i < arg1.Count; ++i)
+            //{
+            //    for (int j = 0; j < arg2.Count; ++j)
+            //    {
+            //        if (AreIntersecting(arg1[i], arg2[j]))
+            //            newI.Add(arg1[i] * arg2[j]);
+            //    }
+            //}
 
-            return newI;
+            var x = arg1.SelectMany(i => arg2.Where(j => AreIntersecting(i, j)).Select(j => i * j));
+            return x.ToList();
+            //var x = arg1.Where(i => arg2.Where(j => true).Select(j => i * j));
+
+           // return newI;
         }
 
-        protected static bool Intersect(Interval arg1, Interval arg2)
+        private static bool AreIntersecting(Interval arg1, Interval arg2)
         {
-            if (arg1._a <= arg2._a && arg2._a <= arg1._b)
-                return true;
-            if (arg1._a <= arg2._b && arg2._b <= arg1._b)
-                return true;
-            if (arg2._a <= arg1._a && arg1._a <= arg2._b)
-                return true;
-            if (arg2._a <= arg1._b && arg1._b <= arg2._b)
-                return true;
-            return false;
+            return arg1.Contains(arg2.A) || arg1.Contains(arg2.B) || arg2.Contains(arg1.A);
+        }
+
+        private bool Contains(float arg)
+        {
+            return _a <= arg && arg <= _b;
         }
 
         public int CompareTo(Interval obj)

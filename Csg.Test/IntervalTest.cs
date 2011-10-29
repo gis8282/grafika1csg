@@ -38,81 +38,81 @@ namespace Csg.Test
 
         [TestMethod]
         //Given intervals (0, 1) and (2, 3) returns intervals (0, 1) and (2, 3)
-        public void Union_GivenTwoIntervals0123_Returns0123()
+        public void Union_Given01And23_Returns0123()
         {
-            var result = Interval.Union(new List<Interval>() { new Interval(_0, _1) }, new List<Interval> { new Interval(_2, _3) });
+            var result = Interval.Union(CreateIntervalList(_0, _1), CreateIntervalList(_2, _3));
             var expected = CreateIntervalList(_0, _1, _2, _3);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Union_GivenTwoIntervals0213_Returns03()
+        public void Union_Given02And13_Returns03()
         {
-            var result = Interval.Union(new List<Interval>() { new Interval(_0, _2) }, new List<Interval> { new Interval(_1, _3) });
+            var result = Interval.Union(CreateIntervalList(_0, _2), CreateIntervalList(_1, _3));
             var expected = CreateIntervalList(_0, _3);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Union_GivenTwoIntervals0312_Returns03()
+        public void Union_Given03And12_Returns03()
         {
-            var result = Interval.Union(new List<Interval>() { new Interval(_0, _3) }, new List<Interval> { new Interval(_1, _2) });
+            var result = Interval.Union(CreateIntervalList(_0, _3), CreateIntervalList(_1, _2));
             var expected = CreateIntervalList(_0, _3);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Intersection_GivenTwoIntervals0123_ReturnsEmpty()
+        public void Intersection_Given01And23_ReturnsEmpty()
         {
-            var result = Interval.Intersection(new List<Interval>() { new Interval(_0, _1) }, new List<Interval> { new Interval(_2, _3) });
+            var result = Interval.Intersection(CreateIntervalList(_0, _1), CreateIntervalList(_2, _3));
             var expected = CreateIntervalList();
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Intersection_GivenTwoIntervals0213_Returns12()
+        public void Intersection_Given02And13_Returns12()
         {
-            var result = Interval.Intersection(new List<Interval> { new Interval(_0, _2) }, new List<Interval> { new Interval(_1, _3) });
+            var result = Interval.Intersection(CreateIntervalList(_0, _2), CreateIntervalList(_1, _3));
             var expected = CreateIntervalList(_1, _2);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Intersection_GivenTwoIntervals0312_Returns12()
+        public void Intersection_Given03And12_Returns12()
         {
-            var result = Interval.Intersection(new List<Interval>() { new Interval(_0, _3) }, new List<Interval> { new Interval(_1, _2) });
+            var result = Interval.Intersection(CreateIntervalList(_0, _3), CreateIntervalList(_1, _2));
             var expected = CreateIntervalList(_1, _2);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Difference_GivenTwoIntervals0123_Returns03()
+        public void Difference_Given01And23_Returns03()
         {
-            var result = Interval.Difference(new List<Interval>() { new Interval(_0, _1) }, new List<Interval> { new Interval(_2, _3) });
+            var result = Interval.Difference(CreateIntervalList(_0, _1), CreateIntervalList(_2, _3));
             var expected = CreateIntervalList(_0, _1);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Differenc_GivenTwoIntervals0213_Returns01()
+        public void Differenc_Given02And13_Returns01()
         {
-            var result = Interval.Difference(new List<Interval> { new Interval(_0, _2) }, new List<Interval> { new Interval(_1, _3) });
+            var result = Interval.Difference(CreateIntervalList(_0, _2), CreateIntervalList(_1, _3));
             var expected = CreateIntervalList(_0, _1);
 
             AssertAreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Difference_GivenTwoIntervals0312_Returns0123()
+        public void Difference_Given03And12_Returns0123()
         {
-            var result = Interval.Difference(new List<Interval>() { new Interval(_0, _3) }, new List<Interval> { new Interval(_1, _2) });
+            var result = Interval.Difference(CreateIntervalList(_0, _3), CreateIntervalList(_1, _2));
             var expected = CreateIntervalList(_0, _1, _2, _3);
 
             AssertAreEqual(expected, result);

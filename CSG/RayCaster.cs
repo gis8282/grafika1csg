@@ -50,10 +50,10 @@ namespace Csg
             WorldToScene(wx0, wy0, out x0, out y0);
             WorldToScene(wx1, wy1, out x1, out y1);
 
-            x0 = Math.Min(Width - 1, Math.Max(0, x0));
-            x1 = Math.Min(Width - 1, Math.Max(0, x1));
-            y0 = Math.Min(Height - 1, Math.Max(0, y0));
-            y1 = Math.Min(Height - 1, Math.Max(0, y1));
+            x0 = x0.Clamp(0, Width - 1);
+            x1 = x1.Clamp(0, Width - 1);
+            y0 = y0.Clamp(0, Height - 1);
+            y1 = y1.Clamp(0, Height - 1);
 
 
             RayCast(x0, y0, x1, y1);
@@ -80,6 +80,18 @@ namespace Csg
             }
         }
 
+        private void RayCastSequential(int x0, int y0, int x1, int y1)
+        {
+            for (int i = x0; i < x1; i++)
+            {
+                for (int j = y0; j < y1; j++)
+                {
+                    var color = RayCast(i, j);
+                    _putPixel(i, j, color[0], color[1], color[2]);
+                }
+            }
+        }
+
         private int[] RayCast(int i, int j)
         {
             float x, y;
@@ -87,15 +99,14 @@ namespace Csg
             SceneToWorld(i, j, out x, out y);
 
             List<Interval> list = Root.TraverseTree(x, y);
-            if (list != null && list.Count != 0)
+            
+            if (list.Count != 0)
             {
                 int[] col = CalculateLights(x, y, list[0]);
 
-                return new int[] {
-                    Math.Min(255, Math.Max(0, col[0])),
-                        Math.Min(255, Math.Max(0, col[1])),
-                        Math.Min(255, Math.Max(0, col[2])) };
+                return new int[] { col[0].Clamp(0, 255), col[1].Clamp(0, 255), col[2].Clamp(0, 255) };
             }
+
             return new int[] { 0, 0, 0 };
         }
 

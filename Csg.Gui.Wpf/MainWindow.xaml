@@ -3,7 +3,7 @@
                 xmlns:r="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"
                 x:Name="MW"
                 x:Class="Csg.Gui.Wpf.MainWindow"
-                Title="My First Ribbon Form" 
+                Title="CSG" 
                 xmlns:local="clr-namespace:Csg.Gui.Wpf"
                 Height="600" 
                 Width="800"
@@ -23,17 +23,67 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <r:Ribbon>
+        <r:Ribbon x:Name="Ribbon">
             <r:Ribbon.QuickAccessToolBar>
                 <r:RibbonQuickAccessToolBar>
-                    <r:RibbonButton Command="ApplicationCommands.Open" SmallImageSource="Icons\OpenFile.png"/>
+                    <r:RibbonButton x:Name="ButtonQ1"
+                             SmallImageSource="Icons\OpenFile.png"
+                             Label="ButtonQ1" />
                 </r:RibbonQuickAccessToolBar>
             </r:Ribbon.QuickAccessToolBar>
+            
             <r:Ribbon.ApplicationMenu>
-                <r:RibbonApplicationMenu>
-                    <r:RibbonButton Command="ApplicationCommands.Open" SmallImageSource="Icons\OpenFile.png" Label="Open Scene..."/>
+                <r:RibbonApplicationMenu SmallImageSource="Icons\OpenFile.png">
+                    <r:RibbonApplicationMenuItem Header="Wczytaj _scenę..."
+                                                 x:Name="OpenScene"
+                                                 ImageSource="Icons\OpenFile.png"/>
+                    <r:RibbonApplicationMenuItem Header="Wczytaj _światła..."
+                                                 x:Name="OpenLights"
+                                                 ImageSource="Icons\OpenFile.png"/>
                 </r:RibbonApplicationMenu>
             </r:Ribbon.ApplicationMenu>
+
+            <r:RibbonTab x:Name="RotateTab"
+                      Header="Obroty">
+                <r:RibbonGroup x:Name="OX"
+                            Header="Wokół osi OX">
+                    <StackPanel Orientation="Horizontal">
+                        <r:RibbonButton x:Name="OXPlus"
+                                 SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                        <r:RibbonButton x:Name="OXMinus"
+                                 SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                    </StackPanel>
+                </r:RibbonGroup>
+                <r:RibbonGroup x:Name="OY"
+                            Header="Wokół osi OY">
+                    <StackPanel Orientation="Horizontal">
+                        <r:RibbonButton x:Name="OYPlus"
+                                 SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                        <r:RibbonButton x:Name="OYMinus"
+                                 SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                    </StackPanel>
+                </r:RibbonGroup>
+                <r:RibbonGroup x:Name="OZ"
+                            Header="Wokół osi OZ">
+                    <StackPanel Orientation="Horizontal">
+                        <r:RibbonButton x:Name="OZPlus"
+                                 SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                        <r:RibbonButton x:Name="OZMinus"
+                                 SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                    </StackPanel>
+                </r:RibbonGroup>
+            </r:RibbonTab>
+            <r:RibbonTab x:Name="AwesomeTab"
+                  ContextualTabGroupHeader="Awesome Tools"
+                  Header="Really Awesome">
+                <r:RibbonGroup x:Name="Group2"
+                        Header="Group2">
+                    <r:RibbonButton x:Name="Button21"
+                             LargeImageSource="Icons\OpenFile.png"
+                             Label="Button21" />
+                </r:RibbonGroup>
+
+            </r:RibbonTab>
         </r:Ribbon>
         <Image x:Name="MainWindowImage" Grid.Row="1" SizeChanged="MainWindowCanvas_SizeChanged" Stretch="Fill"/>
     </Grid>

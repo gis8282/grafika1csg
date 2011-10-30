@@ -39,10 +39,6 @@ namespace Csg.Gui.Wpf
         {
 
             _rayCaster = new RayCaster(PutPixel, (x, y, width, height) => { });
-            var sceneParser = new SphereScriptParser();
-            var lightsParser = new TextLightsParser();
-            _rayCaster.Root = sceneParser.ParseScene(@"c:\Users\Adam\Desktop\grafika1csg\scene and lights\puchar.sl");
-            _rayCaster.Lights = lightsParser.ParseLights(@"c:\Users\Adam\Desktop\grafika1csg\scene and lights\light front.txt");
         }
 
         private void InitializeImage()
@@ -88,6 +84,67 @@ namespace Csg.Gui.Wpf
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
+        }
+
+        private void RotateButtonClick(object sender, RoutedEventArgs e)
+        {
+            var senderTyped = sender as FrameworkElement;
+
+            float delta = 0.1f;
+
+            if (senderTyped.Name.EndsWith("Minus"))
+            {
+                delta *= -1;
+            }
+
+            switch (senderTyped.Name.Substring(0, 2))
+            {
+                case "OX":
+                    _rayCaster.RotateSceneOX(delta);
+                    break;
+                case "OY":
+                    _rayCaster.RotateSceneOY(delta);
+                    break;
+                case "OZ":
+                    _rayCaster.RotateSceneOZ(delta);
+                    break;
+            }
+
+            Render();
+        }
+
+        private void OpenScene_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new System.Windows.Forms.OpenFileDialog() { Filter = "pliki *.sl|*.sl|wszystkie pliki|*.*" };
+
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ISceneParser sceneParser = null;
+                if (System.IO.Path.GetExtension(ofd.FileName) == ".sl")
+                {
+                    sceneParser = new SphereScriptParser();
+                }
+                else
+                {
+                    sceneParser = new TextSceneParser();
+                }
+
+                _rayCaster.Root = sceneParser.ParseScene(ofd.FileName);
+            }
+
+            Render();
+        }
+
+        private void OpenLights_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new System.Windows.Forms.OpenFileDialog();
+
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _rayCaster.Lights = new TextLightsParser().ParseLights(ofd.FileName);
+            }
+
+            Render();
         }
     }
 }

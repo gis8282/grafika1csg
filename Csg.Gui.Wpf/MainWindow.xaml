@@ -15,8 +15,7 @@
     </r:RibbonWindow.CommandBindings>
     <r:RibbonWindow.Resources>
         <ResourceDictionary>
-            <!--<local:MyCommand x:Key="ClipboardGroupCommand"/>-->
-        </ResourceDictionary>
+        </ResourceDictionary>  
     </r:RibbonWindow.Resources>
     <Grid x:Name="LayoutRoot" > 
         <Grid.RowDefinitions>
@@ -26,9 +25,9 @@
         <r:Ribbon x:Name="Ribbon">
             <r:Ribbon.QuickAccessToolBar>
                 <r:RibbonQuickAccessToolBar>
-                    <r:RibbonButton x:Name="ButtonQ1"
-                             SmallImageSource="Icons\OpenFile.png"
-                             Label="ButtonQ1" />
+                    <r:RibbonButton x:Name="OpenSceneQAT"
+                                    Click="OpenScene_Click"
+                                    SmallImageSource="Icons\OpenFile.png" />
                 </r:RibbonQuickAccessToolBar>
             </r:Ribbon.QuickAccessToolBar>
             
@@ -36,9 +35,11 @@
                 <r:RibbonApplicationMenu SmallImageSource="Icons\OpenFile.png">
                     <r:RibbonApplicationMenuItem Header="Wczytaj _scenę..."
                                                  x:Name="OpenScene"
+                                                 Click="OpenScene_Click"
                                                  ImageSource="Icons\OpenFile.png"/>
                     <r:RibbonApplicationMenuItem Header="Wczytaj _światła..."
                                                  x:Name="OpenLights"
+                                                 Click="OpenLights_Click"
                                                  ImageSource="Icons\OpenFile.png"/>
                 </r:RibbonApplicationMenu>
             </r:Ribbon.ApplicationMenu>
@@ -49,27 +50,33 @@
                             Header="Wokół osi OX">
                     <StackPanel Orientation="Horizontal">
                         <r:RibbonButton x:Name="OXPlus"
-                                 SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                                        Click="RotateButtonClick"
+                                        SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
                         <r:RibbonButton x:Name="OXMinus"
-                                 SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                                        Click="RotateButtonClick"
+                                        SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
                     </StackPanel>
                 </r:RibbonGroup>
                 <r:RibbonGroup x:Name="OY"
                             Header="Wokół osi OY">
                     <StackPanel Orientation="Horizontal">
                         <r:RibbonButton x:Name="OYPlus"
-                                 SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                                        Click="RotateButtonClick"
+                                        SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
                         <r:RibbonButton x:Name="OYMinus"
-                                 SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                                        Click="RotateButtonClick"
+                                        SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
                     </StackPanel>
                 </r:RibbonGroup>
                 <r:RibbonGroup x:Name="OZ"
                             Header="Wokół osi OZ">
                     <StackPanel Orientation="Horizontal">
                         <r:RibbonButton x:Name="OZPlus"
-                                 SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                                        Click="RotateButtonClick"
+                                        SmallImageSource="Icons\left.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
                         <r:RibbonButton x:Name="OZMinus"
-                                 SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
+                                        Click="RotateButtonClick"
+                                        SmallImageSource="Icons\right.png" Width="50" Height="50" Padding="15, 10, 15, 10"/>
                     </StackPanel>
                 </r:RibbonGroup>
             </r:RibbonTab>

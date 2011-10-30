@@ -136,23 +136,23 @@ namespace Csg
             float delta = 0.1f;
             switch (e.KeyChar)
             {
-                case 'q': 
-                    r.M = Matrix4x4.CreateRotateX(delta) * r.M; 
+                case 'q':
+                    r.RotateSceneOX(delta); 
                     break;
-                case 'w': 
-                    r.M = Matrix4x4.CreateRotateX(-delta) * r.M; 
+                case 'w':
+                    r.RotateSceneOX(-delta);
                     break;
-                case 'a': 
-                    r.M = Matrix4x4.CreateRotateY(delta) * r.M; 
+                case 'a':
+                    r.RotateSceneOY(delta);
                     break;
-                case 's': 
-                    r.M = Matrix4x4.CreateRotateY(-delta) * r.M; 
+                case 's':
+                    r.RotateSceneOY(-delta);
                     break;
-                case 'z': 
-                    r.M = Matrix4x4.CreateRotateZ(delta) * r.M; 
+                case 'z':
+                    r.RotateSceneOZ(delta);
                     break;
-                case 'x': 
-                    r.M = Matrix4x4.CreateRotateZ(-delta) * r.M; 
+                case 'x':
+                    r.RotateSceneOZ(-delta); 
                     break;
             }
 

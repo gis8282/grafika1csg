@@ -142,6 +142,26 @@ namespace Csg
             y = (2 * maxY * (float)ys / (float)Height - maxY) * Height / Width;
         }
 
+        public void RotateSceneOX(float delta)
+        {
+            ApplyMatrixTransformation(Matrix4x4.CreateRotateX(delta));
+        }
+
+        public void RotateSceneOY(float delta)
+        {
+            ApplyMatrixTransformation(Matrix4x4.CreateRotateY(delta));
+        }
+
+        public void RotateSceneOZ(float delta)
+        {
+            ApplyMatrixTransformation(Matrix4x4.CreateRotateZ(delta));
+        }
+
+        internal void ApplyMatrixTransformation(Matrix4x4 m)
+        {
+            M = m * M;
+        }
+
         [Conditional("DEBUG")]
         public void DrawRect(int x0, int y0, int x1, int y1)
         {
